@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<skipper version="3.2.35.1768" mvc="Symfony" orm="Doctrine2" name="Blog" uuid="19604c3a-3ea4-42a3-abb0-1a0c7ac26689">
+  <module name="\App" local-name="App" namespace="\App\Entity" local-namespace="App\Entity" export-format="Doctrine2Php" export-path="../src/Entity" uuid="05985a5e-0916-42f7-9d33-dae5f6dff610">
+    <entity name="\App\Entity\Entrada" local-name="Entrada" namespace="\App\Entity" uuid="af67ad90-2d10-4e72-a977-51ba47cb9c99">
+      <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="4eb19f93-ce0f-4b98-b3cd-b2ed4aae324a"/>
+      <field name="slug" type="string" size="255" required="true" unique="true" uuid="3791b725-71cf-4123-b200-83ef456b4fb6"/>
+      <field name="titulo" type="string" size="255" required="true" uuid="ef9e216f-50fd-4a0c-8a7d-2c246d19746a"/>
+      <field name="fecha" type="datetime" required="true" uuid="f1ccfe83-f5f0-49c6-8a5d-5117dd0b4049"/>
+      <field name="estado" type="integer" required="true" uuid="5f2a7391-a58a-4510-87cd-be9857c1a5cb"/>
+      <field name="resumen" type="text" required="true" uuid="4d2829a7-ee26-4887-8cf8-e6bb03b20081"/>
+      <field name="texto" type="text" uuid="dca7f901-cb9e-49c4-983c-8cb08bd46e84"/>
+      <field name="categoria_id" type="integer" required="true" uuid="3b606208-42ee-4dc8-b10a-eab788c500cc"/>
+      <field name="usuario_id" type="integer" required="true" uuid="117e899f-2f6b-4d5c-a9fb-45230bba6d46"/>
+      <orm-attributes>
+        <attribute name="repository-class">App\Repository\EntradaRepository</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="\App\Entity\Entrada" to="\App\Entity\Categoria" caption="Categoria Entradas" owner-alias="entradas" inverse-alias="categoria" many-owner="true" many-inverse="false" parent-required="true" uuid="71aae747-eb22-45b6-82be-2fea4f62e327">
+      <association-field from="categoria_id" to="id" uuid="744d13f8-66fb-41d3-8fa2-b6fb3c3ab0f6"/>
+    </association>
+    <association from="\App\Entity\Entrada" to="\App\Entity\Usuario" caption="Usuario Entradas" owner-alias="entradas" inverse-alias="usuario" many-owner="true" many-inverse="false" parent-required="true" uuid="761ab802-cc41-49cc-a23b-e155fe0be574">
+      <association-field from="usuario_id" to="id" uuid="8d9a9a80-022f-4d45-bb0c-952d88d58c6b"/>
+    </association>
+    <entity name="\App\Entity\Categoria" local-name="Categoria" namespace="\App\Entity" uuid="67adb4da-ee16-4dae-af66-29eb4a1c6d5c">
+      <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="002bf0f7-d5f4-4fc1-b5cd-32839a7791ff"/>
+      <field name="nombre" type="string" size="255" required="true" unique="true" uuid="43cac14b-9fd9-46d4-81cd-246e5489401d"/>
+      <field name="descripcion" type="text" uuid="686de4d0-cbb3-4109-aac3-183f8bb4b1b8"/>
+      <field name="espacio_id" type="integer" required="true" uuid="7bac2efb-7722-4780-b6ab-d620df02ff6c"/>
+      <orm-attributes>
+        <attribute name="repository-class">App\Repository\CategoriaRepository</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="\App\Entity\Categoria" to="\App\Entity\Espacio" caption="Espacio Categorias" owner-alias="categorias" inverse-alias="espacio" many-owner="true" many-inverse="false" parent-required="true" uuid="d8f1542b-5d8f-4952-bce8-59dbd7eeff14">
+      <association-field from="espacio_id" to="id" uuid="f2bbdbb0-be4c-4bfb-891b-9a018473b514"/>
+    </association>
+    <entity name="\App\Entity\Etiqueta" local-name="Etiqueta" namespace="\App\Entity" uuid="50378040-1eca-4b89-b44a-9d9ee62e4370">
+      <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="7b482945-4274-45a4-8d10-80d58fa5e84f"/>
+      <field name="nombre" type="string" size="255" required="true" unique="true" uuid="aa783526-a360-478a-9f38-a45e605fd8d0"/>
+      <orm-attributes>
+        <attribute name="repository-class">App\Repository\EtiquetaRepository</attribute>
+      </orm-attributes>
+    </entity>
+    <entity name="\App\Entity\Usuario" local-name="Usuario" namespace="\App\Entity" uuid="7b53c3a7-cb70-41d4-8d84-e3b919b02aa6">
+      <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="f6bfecf1-27b0-40ee-adb9-2c0fe8feafd1"/>
+      <field name="email" type="string" size="255" required="true" unique="true" uuid="42b69c4d-e8a2-4f4e-86ba-bb958f3d663a"/>
+      <field name="password" type="string" size="255" required="true" uuid="425031dc-4480-429e-b262-b6e5a60e7bb3"/>
+      <field name="nombre" type="string" size="255" required="true" uuid="20ae7680-de81-4c45-857d-8d150307c69e"/>
+      <field name="perfil" type="string" size="20" required="true" uuid="b968d5d1-87e3-4a44-89e4-a61ff73c6d63"/>
+      <orm-attributes>
+        <attribute name="repository-class">App\Repository\UsuarioRepository</attribute>
+      </orm-attributes>
+    </entity>
+    <entity name="\App\Entity\Comentario" local-name="Comentario" namespace="\App\Entity" uuid="335fa0ff-64df-4ec9-9e92-4ac3fe690250">
+      <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="5024b625-136e-47d6-9727-600e8e0ea5a5"/>
+      <field name="fecha" type="datetime" required="true" uuid="b7150ddc-9021-4ed1-809a-b51896526698"/>
+      <field name="texto" type="text" required="true" uuid="b36fbfd8-91b1-4197-bd5a-b9f14bf01d1e"/>
+      <field name="estado" type="integer" required="true" uuid="8ff90bb2-de84-4169-b987-47ab9572b6d4"/>
+      <field name="entrada_id" type="integer" required="true" uuid="767e4065-2d3e-44af-8c7a-042eb6eb58dc"/>
+      <field name="usuario_id" type="integer" required="true" uuid="4667a6ba-9c10-4bde-94b2-517c90fc379e"/>
+      <orm-attributes>
+        <attribute name="repository-class">App\Repository\ComentarioRepository</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="\App\Entity\Comentario" to="\App\Entity\Entrada" caption="Entrada Comentarios" owner-alias="comentarios" inverse-alias="entrada" many-owner="true" many-inverse="false" parent-required="true" uuid="a787d8c7-f5f3-4824-ba2f-9934d3091b81">
+      <association-field from="entrada_id" to="id" uuid="471f834b-46fe-47d8-b59d-0dbc3099f7df"/>
+    </association>
+    <association from="\App\Entity\Comentario" to="\App\Entity\Usuario" caption="Usuario Comentarios" owner-alias="comentarios" inverse-alias="usuario" many-owner="true" many-inverse="false" parent-required="true" uuid="00a5fc1e-2f07-477f-9f1b-ec165d2974b9">
+      <association-field from="usuario_id" to="id" uuid="20fccfb5-bda9-4015-942b-b715be5f92f7"/>
+    </association>
+    <entity name="\App\Entity\Espacio" local-name="Espacio" namespace="\App\Entity" uuid="4ff1c901-8359-4cab-9bab-b798a9d9c491">
+      <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="3fa95042-36ac-4f9d-8502-00f2609be6cb"/>
+      <field name="nombre" type="string" size="255" required="true" unique="true" uuid="60562cda-8c2c-4970-9d90-d425ef499b45"/>
+      <orm-attributes>
+        <attribute name="repository-class">App\Repository\EspacioRepository</attribute>
+      </orm-attributes>
+    </entity>
+    <entity name="\App\Entity\EntradaEtiqueta" local-name="EntradaEtiqueta" namespace="\App\Entity" uuid="fa1db45c-520d-44f4-9266-bb74b12ea6de">
+      <field name="etiqueta_id" type="integer" required="true" primary="true" uuid="2eec3350-bb2c-4de0-aaf2-15d5a5696979"/>
+      <field name="entrada_id" type="integer" required="true" primary="true" uuid="a6b94b7d-fd21-441c-8a50-a503eca08cea"/>
+      <orm-attributes>
+        <attribute name="table">entrada_etiqueta</attribute>
+      </orm-attributes>
+    </entity>
+    <many-to-many mn-entity="\App\Entity\EntradaEtiqueta" caption="Entrada to Etiqueta" uuid="683f6760-eda2-4992-9837-599a5dd17f0f">
+      <many-to-many-entity name="\App\Entity\Etiqueta" owning-side="true" alias="etiquetas" uuid="2d6ac0ac-1c26-47e0-a84e-ac4fc91476eb">
+        <many-to-many-field from="etiqueta_id" to="id" uuid="95418b21-5f83-4263-bc6f-2ce2bbd1f637"/>
+      </many-to-many-entity>
+      <many-to-many-entity name="\App\Entity\Entrada" owning-side="false" alias="entradas" uuid="12e51abb-37aa-445e-9bfb-f3cbb7a89fab">
+        <many-to-many-field from="entrada_id" to="id" uuid="5e96a6f2-9c12-430e-ba25-0b450e95e857"/>
+      </many-to-many-entity>
+    </many-to-many>
+    <orm-attributes>
+      <attribute name="filename-format">entity-name-only</attribute>
+    </orm-attributes>
+  </module>
+  <visual-data>
+    <association uuid="00a5fc1e-2f07-477f-9f1b-ec165d2974b9" color="#969696"/>
+    <association uuid="71aae747-eb22-45b6-82be-2fea4f62e327" color="#969696"/>
+    <association uuid="761ab802-cc41-49cc-a23b-e155fe0be574" color="#969696"/>
+    <association uuid="a787d8c7-f5f3-4824-ba2f-9934d3091b81" color="#969696"/>
+    <association uuid="d8f1542b-5d8f-4952-bce8-59dbd7eeff14" color="#969696"/>
+    <entity uuid="335fa0ff-64df-4ec9-9e92-4ac3fe690250" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="64" position-y="29" size-x="0" size-x2="69" size-y="0" size-y2="31"/>
+    <entity uuid="4ff1c901-8359-4cab-9bab-b798a9d9c491" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="455" position-y="13" size-x="0" size-x2="69" size-y="0" size-y2="31"/>
+    <entity uuid="50378040-1eca-4b89-b44a-9d9ee62e4370" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="484" position-y="351" size-x="0" size-x2="109" size-y="0" size-y2="45"/>
+    <entity uuid="67adb4da-ee16-4dae-af66-29eb4a1c6d5c" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="454" position-y="122" size-x="0" size-x2="109" size-y="0" size-y2="73"/>
+    <entity uuid="7b53c3a7-cb70-41d4-8d84-e3b919b02aa6" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="60" position-y="269" size-x="0" size-x2="117" size-y="0" size-y2="87"/>
+    <entity uuid="af67ad90-2d10-4e72-a977-51ba47cb9c99" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="260" position-y="123" size-x="0" size-x2="98" size-y="0" size-y2="115"/>
+    <entity uuid="fa1db45c-520d-44f4-9266-bb74b12ea6de" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="479" position-y="230" size-x="0" size-x2="113" size-y="0" size-y2="60"/>
+    <many-to-many-association uuid="683f6760-eda2-4992-9837-599a5dd17f0f" color="#969696"/>
+    <many-to-many-association-entity uuid="12e51abb-37aa-445e-9bfb-f3cbb7a89fab" caption1-position-x="0" caption1-position-y="0" center-position-x="0" center-position-y="0"/>
+    <many-to-many-association-entity uuid="2d6ac0ac-1c26-47e0-a84e-ac4fc91476eb" caption1-position-x="0" caption1-position-y="0" center-position-x="0" center-position-y="0"/>
+    <module uuid="05985a5e-0916-42f7-9d33-dae5f6dff610" bg-color="#FEFCE8" position-x="61" position-y="72" size-x="11" size-x2="714" size-y="22" size-y2="422"/>
+    <project uuid="19604c3a-3ea4-42a3-abb0-1a0c7ac26689" size-x="0" size-x2="995" size-y="0" size-y2="592"/>
+  </visual-data>
+</skipper>
