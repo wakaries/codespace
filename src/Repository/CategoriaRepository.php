@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Categoria;
+use App\Entity\Espacio;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -17,6 +18,14 @@ class CategoriaRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Categoria::class);
+    }
+
+    public function findByEspacio(Espacio $espacio)
+    {
+        $dql = 'SELECT c FROM App\Entity\Categoria c WHERE c.espacio = :espacio';
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query->setParameter('espacio', $espacio);
+        return $query->getResult();
     }
 
     // /**
