@@ -24,7 +24,7 @@ class EntradaController extends AbstractController {
      */
     public function add(): Response
     {
-        return $this->render('admin/entrada/add.html.twig');
+        return $this->render('admin/entrada/edit.html.twig');
     }
 
 }
