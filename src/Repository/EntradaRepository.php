@@ -19,32 +19,21 @@ class EntradaRepository extends ServiceEntityRepository
         parent::__construct($registry, Entrada::class);
     }
 
-    // /**
-    //  * @return Entrada[] Returns an array of Entrada objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function getBySlugDql($slug)
     {
-        return $this->createQueryBuilder('e')
-            ->andWhere('e.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('e.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        $dql = 'SELECT e FROM App\Entity\Entrada e WHERE e.slug = :slug';
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query->setParameter('slug', $slug);
+        return $query->getOneOrNullResult();
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Entrada
+    public function getBySlugQueryBuilder($slug)
     {
-        return $this->createQueryBuilder('e')
-            ->andWhere('e.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
+        $qb = $this->createQueryBuilder('e')
+            ->where('e.slug = :slug')
+            ->setParameter('slug', $slug)
         ;
+        return $qb->getQuery()->getOneOrNullResult();
     }
-    */
+
 }
