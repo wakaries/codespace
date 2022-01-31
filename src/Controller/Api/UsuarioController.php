@@ -87,9 +87,27 @@ class UsuarioController extends AbstractController {
     /**
      * @Route("/{id}", methods={"PUT"})
      */
-    public function update($id)
+    public function update(Request $request, $id)
     {
+        $content = json_decode($request->getContent(), true);
         $usuario = $this->usuarioRepository->find($id);
+
+        if (isset($content['email'])) {
+            $usuario->setEmail($content['email']);
+        }
+        if (isset($content['nombre'])) {
+            $usuario->setNombre($content['nombre']);
+        }
+        if (isset($content['password'])) {
+            $usuario->setPassword($content['password']);
+        }
+        if (isset($content['perfil'])) {
+            $usuario->setPerfil($content['perfil']);
+        }
+        if (isset($content['roles'])) {
+            $usuario->setRoles($content['roles']);
+        }
+        $this->em->flush();
 
         return new JsonResponse([
             'result' => 'ok'
