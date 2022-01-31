@@ -20,7 +20,7 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=180, unique=true)
+     * @ORM\Column(type="string", length=255)
      */
     private $nombre;
 
@@ -41,7 +41,7 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
     private $perfil;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     private $email;
 
@@ -69,7 +69,7 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUserIdentifier(): string
     {
-        return (string) $this->nombre;
+        return (string) $this->email;
     }
 
     /**
@@ -77,7 +77,7 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->nombre;
+        return (string) $this->email;
     }
 
     /**

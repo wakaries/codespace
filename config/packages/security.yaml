@@ -12,7 +12,7 @@ security:
         app_user_provider:
             entity:
                 class: App\Entity\Usuario
-                property: nombre
+                property: email
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
