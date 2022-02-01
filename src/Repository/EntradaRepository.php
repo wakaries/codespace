@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Entrada;
 use App\Entity\Espacio;
+use App\Entity\Usuario;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -70,5 +71,22 @@ class EntradaRepository extends ServiceEntityRepository
             ->setParameter('categorias', $categorias)
         ;
         return $qb->getQuery()->execute();
+    }
+
+    public function findByUsuarioEspacio(Usuario $usuario, Espacio $espacio)
+    {
+        $dql = "
+            SELECT e, c FROM App\Entity\Entrada e
+            JOIN e.categoria c
+            WHERE e.usuario = :usuario
+            AND c.espacio = :espacio
+            ORDER BY e.fecha DESC
+        ";
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query->setParameters([
+            'usuario' => $usuario,
+            'espacio' => $espacio
+        ]);
+        return $query->execute();
     }
 }

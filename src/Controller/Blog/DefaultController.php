@@ -57,7 +57,8 @@ class DefaultController extends AbstractController
      */
     public function test3($idEspacio, $idUsuario, EntradaRepository $entradaRepository, EspacioRepository $espacioRepository, UsuarioRepository $usuarioRepository): Response
     {
-
+        $usuario = $usuarioRepository->find($idUsuario);
+        $espacio = $espacioRepository->find($idEspacio);
         // LISTADO DE ENTRADAS DE UN USUARIO EN UN ESPACIO
         $entradas = $entradaRepository->findByUsuarioEspacio($usuario, $espacio);
         return $this->render('blog/index.html.twig', [
