@@ -16,11 +16,12 @@ class DefaultController extends AbstractController
     /**
      * @Route("/blog")
      */
-    public function index(CategoriaRepository $categoriaRepository, EspacioRepository $espacioRepository): Response
+    public function index(EntradaRepository $entradaRepository, CategoriaRepository $categoriaRepository, EspacioRepository $espacioRepository): Response
     {
-        //$espacio = $espacioRepository->find(1);
-        //$categorias = $categoriaRepository->findByEspacio($espacio);
-        return $this->render('blog/index.html.twig');
+        $entradas = $entradaRepository->findEntradasMasRecientes(3);
+        return $this->render('blog/index.html.twig', [
+            'entradas' => $entradas
+        ]);
     }
 
     /**

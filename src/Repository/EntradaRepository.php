@@ -36,4 +36,16 @@ class EntradaRepository extends ServiceEntityRepository
         return $qb->getQuery()->getOneOrNullResult();
     }
 
+        /**
+     * Consulta las entradas más recientes
+     */
+    public function findEntradasMasRecientes($limit)
+    {
+        $qb = $this->createQueryBuilder('e')
+            ->where('e.estado = 1')
+            ->orderBy('e.fecha', 'DESC')
+            ->setMaxResults($limit)
+        ;
+        return $qb->getQuery()->execute();
+    }
 }

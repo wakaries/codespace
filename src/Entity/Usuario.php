@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UsuarioRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -20,9 +22,9 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=180, unique=true)
      */
-    private $nombre;
+    private $email;
 
     /**
      * @ORM\Column(type="json")
@@ -38,26 +40,42 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="string", length=255)
      */
+    private $nombre;
+
+    /**
+     * @ORM\Column(type="string", length=20)
+     */
     private $perfil;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\OneToMany(targetEntity=Comentario::class, mappedBy="usuario")
      */
-    private $email;
+    private $comentarios;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Entrada::class, mappedBy="usuario")
+     */
+    private $entradas;
+
+    public function __construct()
+    {
+        $this->comentarios = new ArrayCollection();
+        $this->entradas = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getNombre(): ?string
+    public function getEmail(): ?string
     {
-        return $this->nombre;
+        return $this->email;
     }
 
-    public function setNombre(string $nombre): self
+    public function setEmail(string $email): self
     {
-        $this->nombre = $nombre;
+        $this->email = $email;
 
         return $this;
     }
@@ -134,6 +152,18 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
+    public function getNombre(): ?string
+    {
+        return $this->nombre;
+    }
+
+    public function setNombre(string $nombre): self
+    {
+        $this->nombre = $nombre;
+
+        return $this;
+    }
+
     public function getPerfil(): ?string
     {
         return $this->perfil;
@@ -146,14 +176,62 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getEmail(): ?string
+    /**
+     * @return Collection|Comentario[]
+     */
+    public function getComentarios(): Collection
     {
-        return $this->email;
+        return $this->comentarios;
     }
 
-    public function setEmail(string $email): self
+    public function addComentario(Comentario $comentario): self
     {
-        $this->email = $email;
+        if (!$this->comentarios->contains($comentario)) {
+            $this->comentarios[] = $comentario;
+            $comentario->setUsuario($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComentario(Comentario $comentario): self
+    {
+        if ($this->comentarios->removeElement($comentario)) {
+            // set the owning side to null (unless already changed)
+            if ($comentario->getUsuario() === $this) {
+                $comentario->setUsuario(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Entrada[]
+     */
+    public function getEntradas(): Collection
+    {
+        return $this->entradas;
+    }
+
+    public function addEntrada(Entrada $entrada): self
+    {
+        if (!$this->entradas->contains($entrada)) {
+            $this->entradas[] = $entrada;
+            $entrada->setUsuario($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEntrada(Entrada $entrada): self
+    {
+        if ($this->entradas->removeElement($entrada)) {
+            // set the owning side to null (unless already changed)
+            if ($entrada->getUsuario() === $this) {
+                $entrada->setUsuario(null);
+            }
+        }
 
         return $this;
     }

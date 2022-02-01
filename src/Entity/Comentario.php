@@ -2,44 +2,45 @@
 
 namespace App\Entity;
 
+use App\Repository\ComentarioRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\ComentarioRepository")
+ * @ORM\Entity(repositoryClass=ComentarioRepository::class)
  */
 class Comentario
 {
     /**
      * @ORM\Id
+     * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="datetime", nullable=false)
+     * @ORM\Column(type="datetime")
      */
     private $fecha;
 
     /**
-     * @ORM\Column(type="text", nullable=false)
+     * @ORM\Column(type="text")
      */
     private $texto;
 
     /**
-     * @ORM\Column(type="integer", nullable=false)
+     * @ORM\Column(type="integer")
      */
     private $estado;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Entrada", inversedBy="comentarios")
-     * @ORM\JoinColumn(name="entrada_id", referencedColumnName="id", nullable=false)
+     * @ORM\ManyToOne(targetEntity=Entrada::class, inversedBy="comentarios")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $entrada;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Usuario", inversedBy="comentarios")
-     * @ORM\JoinColumn(name="usuario_id", referencedColumnName="id", nullable=false)
+     * @ORM\ManyToOne(targetEntity=Usuario::class, inversedBy="comentarios")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $usuario;
 

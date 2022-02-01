@@ -2,40 +2,36 @@
 
 namespace App\Entity;
 
+use App\Repository\EtiquetaRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\EtiquetaRepository")
+ * @ORM\Entity(repositoryClass=EtiquetaRepository::class)
  */
 class Etiqueta
 {
     /**
      * @ORM\Id
+     * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", unique=true, length=255, nullable=false)
+     * @ORM\Column(type="string", length=255)
      */
     private $nombre;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Entrada", inversedBy="etiquetas")
-     * @ORM\JoinTable(
-     *     name="entrada_etiqueta",
-     *     joinColumns={@ORM\JoinColumn(name="etiqueta_id", referencedColumnName="id", nullable=false)},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="entrada_id", referencedColumnName="id", nullable=false)}
-     * )
+     * @ORM\ManyToMany(targetEntity=Entrada::class, inversedBy="etiquetas")
      */
-    private $entradas;
+    private $entrada;
 
     public function __construct()
     {
-        $this->entradas = new ArrayCollection();
+        $this->entrada = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -58,15 +54,15 @@ class Etiqueta
     /**
      * @return Collection|Entrada[]
      */
-    public function getEntradas(): Collection
+    public function getEntrada(): Collection
     {
-        return $this->entradas;
+        return $this->entrada;
     }
 
     public function addEntrada(Entrada $entrada): self
     {
-        if (!$this->entradas->contains($entrada)) {
-            $this->entradas[] = $entrada;
+        if (!$this->entrada->contains($entrada)) {
+            $this->entrada[] = $entrada;
         }
 
         return $this;
@@ -74,7 +70,7 @@ class Etiqueta
 
     public function removeEntrada(Entrada $entrada): self
     {
-        $this->entradas->removeElement($entrada);
+        $this->entrada->removeElement($entrada);
 
         return $this;
     }

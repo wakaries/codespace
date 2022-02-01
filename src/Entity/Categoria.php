@@ -2,24 +2,25 @@
 
 namespace App\Entity;
 
+use App\Repository\CategoriaRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\CategoriaRepository")
+ * @ORM\Entity(repositoryClass=CategoriaRepository::class)
  */
 class Categoria
 {
     /**
      * @ORM\Id
+     * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", unique=true, length=255, nullable=false)
+     * @ORM\Column(type="string", length=255)
      */
     private $nombre;
 
@@ -29,15 +30,15 @@ class Categoria
     private $descripcion;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Entrada", mappedBy="categoria")
-     */
-    private $entradas;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Espacio", inversedBy="categorias")
-     * @ORM\JoinColumn(name="espacio_id", referencedColumnName="id", nullable=false)
+     * @ORM\ManyToOne(targetEntity=Espacio::class, inversedBy="categorias")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $espacio;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Entrada::class, mappedBy="categoria")
+     */
+    private $entradas;
 
     public function __construct()
     {
@@ -73,6 +74,18 @@ class Categoria
         return $this;
     }
 
+    public function getEspacio(): ?Espacio
+    {
+        return $this->espacio;
+    }
+
+    public function setEspacio(?Espacio $espacio): self
+    {
+        $this->espacio = $espacio;
+
+        return $this;
+    }
+
     /**
      * @return Collection|Entrada[]
      */
@@ -99,18 +112,6 @@ class Categoria
                 $entrada->setCategoria(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getEspacio(): ?Espacio
-    {
-        return $this->espacio;
-    }
-
-    public function setEspacio(?Espacio $espacio): self
-    {
-        $this->espacio = $espacio;
 
         return $this;
     }

@@ -2,29 +2,30 @@
 
 namespace App\Entity;
 
+use App\Repository\EspacioRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\EspacioRepository")
+ * @ORM\Entity(repositoryClass=EspacioRepository::class)
  */
 class Espacio
 {
     /**
      * @ORM\Id
+     * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", unique=true, length=255, nullable=false)
+     * @ORM\Column(type="string", length=255)
      */
     private $nombre;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Categoria", mappedBy="espacio")
+     * @ORM\OneToMany(targetEntity=Categoria::class, mappedBy="espacio")
      */
     private $categorias;
 
