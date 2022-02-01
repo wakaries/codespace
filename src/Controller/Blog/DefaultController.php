@@ -18,19 +18,62 @@ class DefaultController extends AbstractController
      */
     public function index(EntradaRepository $entradaRepository, CategoriaRepository $categoriaRepository, EspacioRepository $espacioRepository): Response
     {
-        $entradas = $entradaRepository->findEntradasMasRecientes(3);
+        $entradas = $entradaRepository->findEntradasMasRecientes(4);
         return $this->render('blog/index.html.twig', [
             'entradas' => $entradas
         ]);
     }
 
     /**
-     * @Route("/blog/{slug}")
+     * @Route("/test1/{idEspacio}")
+     */
+    public function test1($idEspacio, EntradaRepository $entradaRepository, EspacioRepository $espacioRepository): Response
+    {
+        // LISTADO DE ENTRADAS PARA UN ESPACIO
+        $espacio = $espacioRepository->find($idEspacio);
+        $entradas = $entradaRepository->findByEspacio($espacio);
+        return $this->render('blog/index.html.twig', [
+            'entradas' => $entradas
+        ]);
+    }
+
+    /**
+     * @Route("/test2")
+     */
+    public function test2(EntradaRepository $entradaRepository, CategoriaRepository $categoriaRepository): Response
+    {
+        $categoria1 = $categoriaRepository->find(1);
+        $categoria2 = $categoriaRepository->find(2);
+        $categorias = [$categoria1, $categoria2];
+        // LISTADO DE ENTRADAS PARA VARIAS CATEGORIAS
+        $entradas = $entradaRepository->findByCategorias($categorias);
+        return $this->render('blog/index.html.twig', [
+            'entradas' => $entradas
+        ]);
+    }
+
+    /**
+     * @Route("/test3/{idEspacio}/{idUsuario}")
+     */
+    public function test3($idEspacio, $idUsuario, EntradaRepository $entradaRepository, EspacioRepository $espacioRepository, UsuarioRepository $usuarioRepository): Response
+    {
+
+        // LISTADO DE ENTRADAS DE UN USUARIO EN UN ESPACIO
+        $entradas = $entradaRepository->findByUsuarioEspacio($usuario, $espacio);
+        return $this->render('blog/index.html.twig', [
+            'entradas' => $entradas
+        ]);
+    }
+
+    /**
+     * @Route("/blog/{slug}", name="blog_entrada")
      */
     public function entrada($slug, EntradaRepository $entradaRepository): Response
     {
-        //$entrada = $entradaRepository->getBySlugDql($slug);
-        $entrada = $entradaRepository->getBySlugQueryBuilder($slug);
+        $entrada = $entradaRepository->findOneBy(['slug' => $slug]);
+        if ($entrada == null) {
+            throw $this->createNotFoundException('Entrada no encontrada');
+        }
         return $this->render('blog/entrada.html.twig', [
             'entrada' => $entrada
         ]);

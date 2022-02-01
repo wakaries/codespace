@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Entrada;
+use App\Entity\Espacio;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -36,15 +37,37 @@ class EntradaRepository extends ServiceEntityRepository
         return $qb->getQuery()->getOneOrNullResult();
     }
 
-        /**
+    /**
      * Consulta las entradas más recientes
      */
     public function findEntradasMasRecientes($limit)
     {
         $qb = $this->createQueryBuilder('e')
+            ->select('e, c')
+            ->join('e.categoria', 'c')
             ->where('e.estado = 1')
             ->orderBy('e.fecha', 'DESC')
             ->setMaxResults($limit)
+        ;
+        return $qb->getQuery()->execute();
+    }
+
+    public function findByEspacio(Espacio $espacio)
+    {
+        $qb = $this->createQueryBuilder('entrada')
+            ->select('entrada, c')
+            ->join('entrada.categoria', 'c')
+            ->where('c.espacio = :espacio')
+            ->setParameter('espacio', $espacio)
+        ;
+        return $qb->getQuery()->execute();
+    }
+
+    public function findByCategorias($categorias)
+    {
+        $qb = $this->createQueryBuilder('e')
+            ->where('e.categoria in (:categorias)')
+            ->setParameter('categorias', $categorias)
         ;
         return $qb->getQuery()->execute();
     }
