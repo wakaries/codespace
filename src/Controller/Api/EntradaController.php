@@ -28,6 +28,18 @@ class EntradaController extends AbstractController
     }
 
     /**
+     * @Route("", methods={"OPTIONS"})
+     */
+    public function options(): Response
+    {
+        return new Response('', 200, [
+            'Access-Control-Allow-Origin' => '*',
+            'Access-Control-Allow-Credentials' => 'true',
+            'Access-Control-Allow-Headers' => 'Authorization'
+        ]);
+    }
+
+    /**
      * @Route("", methods={"GET"})
      */
     public function index(): Response
@@ -41,7 +53,9 @@ class EntradaController extends AbstractController
                 'titulo' => $entrada->getTitulo()
             ];
         }
-        return new JsonResponse($resultado);
+        return new JsonResponse($resultado, 200, [
+            'Access-Control-Allow-Origin' => '*'
+        ]);
     }
 
     /**
