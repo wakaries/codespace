@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Categoria{% endblock %}
+
+{% block body %}
+    <h1>Categoria</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ categorium.id }}</td>
+            </tr>
+            <tr>
+                <th>Nombre</th>
+                <td>{{ categorium.nombre }}</td>
+            </tr>
+            <tr>
+                <th>Descripcion</th>
+                <td>{{ categorium.descripcion }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('admin_categoria_index') }}">back to list</a>
+
+    <a href="{{ path('admin_categoria_edit', {'id': categorium.id}) }}">edit</a>
+
+    {{ include('admin/categoria/_delete_form.html.twig') }}
+{% endblock %}

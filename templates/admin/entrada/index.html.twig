@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Entrada index{% endblock %}
+
+{% block body %}
+    <h1>Entrada index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Slug</th>
+                <th>Titulo</th>
+                <th>Fecha</th>
+                <th>Estado</th>
+                <th>Resumen</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entrada in entradas %}
+            <tr>
+                <td>{{ entrada.id }}</td>
+                <td>{{ entrada.slug }}</td>
+                <td>{{ entrada.titulo }}</td>
+                <td>{{ entrada.fecha ? entrada.fecha|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ entrada.estado }}</td>
+                <td>{{ entrada.resumen }}</td>
+                <td>
+                    <a href="{{ path('admin_entrada_show', {'id': entrada.id}) }}">show</a>
+                    <a href="{{ path('admin_entrada_edit', {'id': entrada.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('admin_entrada_new') }}">Create new</a>
+{% endblock %}

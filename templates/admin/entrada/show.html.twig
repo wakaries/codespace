@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Entrada{% endblock %}
+
+{% block body %}
+    <h1>Entrada</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ entrada.id }}</td>
+            </tr>
+            <tr>
+                <th>Slug</th>
+                <td>{{ entrada.slug }}</td>
+            </tr>
+            <tr>
+                <th>Titulo</th>
+                <td>{{ entrada.titulo }}</td>
+            </tr>
+            <tr>
+                <th>Fecha</th>
+                <td>{{ entrada.fecha ? entrada.fecha|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Estado</th>
+                <td>{{ entrada.estado }}</td>
+            </tr>
+            <tr>
+                <th>Resumen</th>
+                <td>{{ entrada.resumen }}</td>
+            </tr>
+            <tr>
+                <th>Texto</th>
+                <td>{{ entrada.texto }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('admin_entrada_index') }}">back to list</a>
+
+    <a href="{{ path('admin_entrada_edit', {'id': entrada.id}) }}">edit</a>
+
+    {{ include('admin/entrada/_delete_form.html.twig') }}
+{% endblock %}

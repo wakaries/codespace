@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Etiqueta{% endblock %}
+
+{% block body %}
+    <h1>Edit Etiqueta</h1>
+
+    {{ include('admin/etiqueta/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('admin_etiqueta_index') }}">back to list</a>
+
+    {{ include('admin/etiqueta/_delete_form.html.twig') }}
+{% endblock %}

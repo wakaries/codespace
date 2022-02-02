@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Etiqueta index{% endblock %}
+
+{% block body %}
+    <h1>Etiqueta index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for etiquetum in etiquetas %}
+            <tr>
+                <td>{{ etiquetum.id }}</td>
+                <td>{{ etiquetum.nombre }}</td>
+                <td>
+                    <a href="{{ path('admin_etiqueta_show', {'id': etiquetum.id}) }}">show</a>
+                    <a href="{{ path('admin_etiqueta_edit', {'id': etiquetum.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('admin_etiqueta_new') }}">Create new</a>
+{% endblock %}
