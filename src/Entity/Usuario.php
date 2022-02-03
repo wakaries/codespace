@@ -65,7 +65,7 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __toString()
     {
-        return $this->nombre;
+        return $this->nombre . ' (' . $this->email . ')';
     }
 
     public function getId(): ?int

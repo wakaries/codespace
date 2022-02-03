@@ -25,4 +25,12 @@ class LoginController extends AbstractController
             'error'         => $error,
         ]);
     }
+
+    /**
+     * @Route("/api/login_check", methods={"OPTIONS"})
+     */
+    public function options()
+    {
+        return new Response('');
+    }
 }

@@ -32,11 +32,7 @@ class EntradaController extends AbstractController
      */
     public function options(): Response
     {
-        return new Response('', 200, [
-            'Access-Control-Allow-Origin' => '*',
-            'Access-Control-Allow-Credentials' => 'true',
-            'Access-Control-Allow-Headers' => 'Authorization'
-        ]);
+        return new Response('');
     }
 
     /**
@@ -44,18 +40,22 @@ class EntradaController extends AbstractController
      */
     public function index(): Response
     {
-        $entradas = $this->entradaRepository->findBy([], ['titulo' => 'ASC']);
+        /** @var Usuario $usuario */
+        $usuario = $this->getUser();
+        
+        $entradas = $this->entradaRepository->findBy(['usuario' => $usuario], ['titulo' => 'ASC']);
         $resultado = [];
+
         foreach ($entradas as $entrada) {
             $resultado[] = [
                 'id' => $entrada->getId(),
                 'slug' => $entrada->getSlug(),
-                'titulo' => $entrada->getTitulo()
+                'titulo' => $entrada->getTitulo(),
+                'usuario' => $entrada->getUsuario() == null? '' : $entrada->getUsuario()->getNombre(),
+                'usuarioLogin' => $usuario->getEmail()
             ];
         }
-        return new JsonResponse($resultado, 200, [
-            'Access-Control-Allow-Origin' => '*'
-        ]);
+        return new JsonResponse($resultado);
     }
 
     /**
